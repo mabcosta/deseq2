@@ -13,37 +13,34 @@ suppressMessages(library(readr))
 suppressMessages(library(dplyr))
 suppressMessages(library(optparse)) # Parsing package
 
+## command line options
+option_list = list(
+	make_option(c('-r', '--reference'), action='store', default=NA,
+	type='character',
+	help='Reference level condition for DESeq2'),
+	make_option(c('-c', '--condition'),
+	action='store', default=NA,
+	type='character',
+	help='second condition to be compared against condition_a'),
+)
+
+opt <- parse_args(OptionParser(option_list=option_list))
+
 ############################################################################
-# Create an OptionParser object
-parser <- OptionParser(usage = "Usage: %prog [options]")
-
-# Define the options
-parser <- add_option(parser, "-a", "--condition",
-                     dest = "condition", type = "character",
-					 help = "Description of condition")
-
-parser <- add_option(parser, "-r", "--reference",
-                     dest = "reference", type = "character",
-					 help = "Reference for DESeq2 run")
-
-# Parse the command line arguments
-opt <- parse_args(parser)
-
-# Access the parsed options
 condition <- opt$condition
 ref_condition <- opt$reference
+print(condition)
+print(ref_condition)
 
-condition <- "scramble"
-condition2 <- "mir184"
-ref_condition <- "scramble"
-
-label <- paste(condition, condition2, sep = "_")
+label <- paste(condition, ref_condition, sep = "_")
+label
 
 padj_Cut <- 0.05
 Vfc_Cut <- 0.5
 Vp_Cut <- 0.05
 
 ############################################################################
+print("Getting data...")
 ### Get data
 countData <- read.csv("interger_counts_data_MIR184.csv", row.names = 1)
 colData <- read.csv("sample_info.csv", row.names = 1 )
@@ -79,18 +76,23 @@ print("Dimensions reduced")
 summary(dds)
 
 ############################################################################
+print("Running DESeq...")
+
 ### Run DESeq2
 dds <- DESeq(dds)
 
 # Get results
 resultsNames(dds) # lists the coefficients
-res <- results(dds, contrast = c("condition", ref_condition, condition))
+res <- results(dds, contrast = c("condition", condition, ref_condition))
 res
-
+paste("Results obtained for reference", ref_condition, "and", condition)
 ############################################################################
+print("Shrinking and getting plots...")
+
 ### Shrinkage - generate MAP values for plotting and ranking only
-coef <- resultsNames(dds)[2]
+coef <- paste("condition", condition, "vs", ref_condition, sep = "_")
 print(coef)
+
 resLFC <- lfcShrink(dds, coef = coef, type = "apeglm") # MAP
 
 # Save plot
@@ -146,7 +148,7 @@ vsd_pca <- prcomp(vsd_matrix) # transpose so that PC is calculated for genes ins
 load <- as.data.frame(vsd_pca$rotation)
 pc1 <- load[order(load$PC1, decreasing = TRUE),]
 pc1 <- subset(pc1, select = PC1)
-fwrite(pc1, paste(label, '_pc1_loading_genes.csv', sep ='_'), row.names = TRUE)
+fwrite(pc1, paste(label, 'pc1_loading_genes.csv', sep ='_'), row.names = TRUE)
 
 pc2 <- load[order(load$PC2, decreasing = TRUE),]
 pc2 <- subset(pc2, select = PC2)
@@ -155,7 +157,7 @@ fwrite(pc2, paste(label, 'pc2_loading_genes.csv', sep ='_'), row.names = TRUE)
 # PCA
 title <- strsplit(coef, '_')[[1]]
 
-svg(paste(label, '_pca.svg', sep ='_'))
+svg(paste(label, 'pca.svg', sep ='_'))
 pcaData <- plotPCA(vsd, returnData=TRUE)
 percentVar <- round(100 * attr(pcaData, "percentVar"))
 ggplot(pcaData, aes(PC1, PC2, color=condition)) + geom_point(size=1) + xlab(paste0("PC1: ",percentVar[1],"% variance")) + ylab(paste0("PC2: ",percentVar[2],"% variance")) + geom_text_repel(label = coldata$condition) + labs(title = paste(toupper(title[2]), 'vs', toupper(title[4]), 'with DESeq2')) + coord_fixed() + theme_bw()
@@ -169,11 +171,11 @@ dev.off()
 print('Volcano plot saved')
 
 ### Cluster Profiler ###
-print('DESeq2 analysis complete')
-print('Starting Cluster Profiler analysis')
+print("DESeq2 analysis complete")
+print("Starting Cluster Profiler analysis")
 
 # GO enrichment & GSEA
-gene <- mapIds(org.Hs.eg.db, keys=resSig$hgnc_symbol, 
+gene <- mapIds(org.Hs.eg.db, keys=resSig$hgnc_symbol,
 column="ENTREZID", keytype="SYMBOL", multiVals="first")
 
 genelist <- resSig[,log2FoldChange.MAP]
@@ -239,7 +241,10 @@ if (nrow(as.data.frame(mkegg)) > 0) {
 
 
 if (nrow(kegg_gsea) > 0) {
-    fwrite(as.data.frame(setReadable(kegg_gsea, OrgDb = org.Hs.eg.db, keyType="ENTREZID")), paste(label, '_kegg_gsea_enrichment.csv', sep =''))
+  fwrite(as.data.frame(setReadable(
+	kegg_gsea, OrgDb = org.Hs.eg.db,
+	keyType="ENTREZID")),
+	paste(label, "kegg_gsea_enrichment.csv", sep = "_"))
 } else {
-    print('no KEGG GSEA enrichment')
+  print("no KEGG GSEA enrichment")
 }
