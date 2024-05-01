@@ -1,3 +1,4 @@
+print("Loading packages... takes 20 seconds")
 setwd("/home/mcosta/projects/deseq2/NZ")
 suppressMessages(library(apeglm))
 suppressMessages(library(EnhancedVolcano))
@@ -11,17 +12,18 @@ suppressMessages(library(ggplot2))
 suppressMessages(library(ggfortify))
 suppressMessages(library(readr))
 suppressMessages(library(dplyr))
-suppressMessages(library(optparse)) # Parsing package
+suppressMessages(library(optparse))
+suppressMessages(library(data.table)) 
+
+print("Packages LOADED!")
 
 ## command line options
 option_list = list(
-	make_option(c('-r', '--reference'), action='store', default=NA,
-	type='character',
-	help='Reference level condition for DESeq2'),
-	make_option(c('-c', '--condition'),
-	action='store', default=NA,
-	type='character',
-	help='second condition to be compared against condition_a'),
+	make_option(c("-r", "--reference"), action = "store", default = NA,
+	type='character', help='Reference level condition for DESeq2'),
+	make_option(c("-c", "--condition"), action = "store", default = NA,
+	            type='character',
+				help='second condition to be compared against condition_a')
 )
 
 opt <- parse_args(OptionParser(option_list=option_list))
@@ -133,7 +135,7 @@ fwrite(resOrdered, paste(label, 'deseq2_results_ihw_no_filter.csv', sep ='_'))
 resSig <- subset(resOrdered, padj < as.numeric(padj_Cut))
 fwrite(resSig, paste(label, '_deseq2_results_ihw_padj_filtered.csv', sep ='_'))
 
-print('results written')
+print("DESeq results written")
 
 # Data transformation and visualisation -  running times are shorter when using blind=FALSE and if the function DESeq() has already been run
 vsd <- rlog(dds, blind = FALSE)
@@ -160,7 +162,7 @@ title <- strsplit(coef, '_')[[1]]
 svg(paste(label, 'pca.svg', sep ='_'))
 pcaData <- plotPCA(vsd, returnData=TRUE)
 percentVar <- round(100 * attr(pcaData, "percentVar"))
-ggplot(pcaData, aes(PC1, PC2, color=condition)) + geom_point(size=1) + xlab(paste0("PC1: ",percentVar[1],"% variance")) + ylab(paste0("PC2: ",percentVar[2],"% variance")) + geom_text_repel(label = coldata$condition) + labs(title = paste(toupper(title[2]), 'vs', toupper(title[4]), 'with DESeq2')) + coord_fixed() + theme_bw()
+ggplot(pcaData, aes(PC1, PC2, color=condition)) + geom_point(size=1) + xlab(paste0("PC1: ",percentVar[1],"% variance")) + ylab(paste0("PC2: ",percentVar[2],"% variance")) + geom_text_repel(label = colData$condition) + labs(title = paste(toupper(title[2]), 'vs', toupper(title[4]), 'with DESeq2')) + coord_fixed() + theme_bw()
 dev.off()
 print('PCA plot saved')
 
