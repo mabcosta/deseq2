@@ -1,0 +1,25 @@
+files,id,condition,batch,clone,names
+/media/pontikos_nas2/MarcosCosta/projects/RNAseq/MIR184/r1A/star_salmon/r1A/quant.sf,r1A,not_transfected,1,1,Control WT 1
+/media/pontikos_nas2/MarcosCosta/projects/RNAseq/MIR184/r1B/star_salmon/r1B/quant.sf,r1B,not_transfected,1,1,Control WT 2
+/media/pontikos_nas2/MarcosCosta/projects/RNAseq/MIR184/r1C/star_salmon/r1C/quant.sf,r1C,not_transfected,1,1,Control WT 3
+/media/pontikos_nas2/MarcosCosta/projects/RNAseq/MIR184/r2A/star_salmon/r2A/quant.sf,r2A,scramble,1,1,Scramble 1
+/media/pontikos_nas2/MarcosCosta/projects/RNAseq/MIR184/r2B/star_salmon/r2B/quant.sf,r2B,scramble,1,1,Scramble 2
+/media/pontikos_nas2/MarcosCosta/projects/RNAseq/MIR184/r2C/star_salmon/r2C/quant.sf,r2C,scramble,1,1,Scramble 3
+/media/pontikos_nas2/MarcosCosta/projects/RNAseq/MIR184/r3A/star_salmon/r3A/quant.sf,r3A,anti_mir184,1,1,Anti-mir184 1
+/media/pontikos_nas2/MarcosCosta/projects/RNAseq/MIR184/r3B/star_salmon/r3B/quant.sf,r3B,anti_mir184,1,1,Anti-mir184 2
+/media/pontikos_nas2/MarcosCosta/projects/RNAseq/MIR184/r3C/star_salmon/r3C/quant.sf,r3C,anti_mir184,1,1,Anti-mir184 3
+/media/pontikos_nas2/MarcosCosta/projects/RNAseq/MIR184/r4A/star_salmon/r4A/quant.sf,r4A,mir184,1,1,mir184 1
+/media/pontikos_nas2/MarcosCosta/projects/RNAseq/MIR184/r4B/star_salmon/r4B/quant.sf,r4B,mir184,1,1,mir184 2
+/media/pontikos_nas2/MarcosCosta/projects/RNAseq/MIR184/r4C/star_salmon/r4C/quant.sf,r4C,mir184,1,1,mir184 3
+/media/pontikos_nas2/MarcosCosta/projects/RNAseq/MIR184/r4D/star_salmon/r4D/quant.sf,r4D,mir184,1,1,mir184 4
+/media/pontikos_nas2/MarcosCosta/projects/RNAseq/MIR184/r5A/star_salmon/r5A/quant.sf,r5A,mir184_73GT,1,1,mir184_73GT 1 
+/media/pontikos_nas2/MarcosCosta/projects/RNAseq/MIR184/r5B/star_salmon/r5B/quant.sf,r5B,mir184_73GT,1,1,mir184_73GT 2 
+/media/pontikos_nas2/MarcosCosta/projects/RNAseq/MIR184/r5C/star_salmon/r5C/quant.sf,r5C,mir184_73GT,1,1,mir184_73GT 3 
+/media/pontikos_nas2/MarcosCosta/projects/RNAseq/MIR184/r5D/star_salmon/r5D/quant.sf,r5D,mir184_73GT,1,1,mir184_73GT 4 
+/media/pontikos_nas2/MarcosCosta/projects/RNAseq/MIR184/r6B/star_salmon/r6B/quant.sf,r6B,mir184_58GA,1,1,mir184_58GA 1 
+/media/pontikos_nas2/MarcosCosta/projects/RNAseq/MIR184/r6C/star_salmon/r6C/quant.sf,r6C,mir184_58GA,1,1,mir184_58GA 2
+/media/pontikos_nas2/MarcosCosta/projects/RNAseq/MIR184/r6D/star_salmon/r6D/quant.sf,r6D,mir184_58GA,1,1,mir184_58GA 3
+/media/pontikos_nas2/MarcosCosta/projects/RNAseq/MIR184/r6E/star_salmon/r6E/quant.sf,r6E,mir184_58GA,1,1,mir184_58GA 4
+/media/pontikos_nas2/MarcosCosta/projects/RNAseq/MIR184/r7B/star_salmon/r7B/quant.sf,r7B,mir184_57CT,1,1,mir184_57CT 1
+/media/pontikos_nas2/MarcosCosta/projects/RNAseq/MIR184/r7C/star_salmon/r7C/quant.sf,r7C,mir184_57CT,1,1,mir184_57CT 2
+/media/pontikos_nas2/MarcosCosta/projects/RNAseq/MIR184/r7D/star_salmon/r7D/quant.sf,r7D,mir184_57CT,1,1,mir184_57CT 3
